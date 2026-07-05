@@ -1,6 +1,9 @@
 # Partial-Generated-Knowledge-Files
 
-This repository collects partially generated knowledge files for study and review. The current upload focuses on an academic English final-exam question bank, including an OCR-organized question set, a matching answer key, and an offline practice page.
+This repository collects study materials and generated knowledge files. It currently contains two sets of resources:
+
+- an academic English final-exam question bank
+- a Marxism basic principles question-bank package
 
 ## Repository Structure
 
@@ -8,38 +11,70 @@ This repository collects partially generated knowledge files for study and revie
 .
 ├── README.md
 ├── LICENSE
-└── 学术英语/
-    ├── 期末考试题库_学术英语_OCR整理版.md
-    ├── 期末考试题库_学术英语_答案.md
-    └── 期末考试题库_学术英语_刷题.html
+├── 学术英语/
+│   ├── 期末考试题库_学术英语_OCR整理版.md
+│   ├── 期末考试题库_学术英语_答案.md
+│   └── 期末考试题库_学术英语_刷题.html
+└── 马原题库/
+    ├── README.md
+    ├── 离线题库刷题.html
+    ├── 题库汇总.xlsx
+    ├── 题库提取使用说明.md
+    └── 学习通题库提取指南.zip
 ```
 
-## Files Included
+## 学术英语
 
-### 1. `学术英语/期末考试题库_学术英语_OCR整理版.md`
+### `学术英语/期末考试题库_学术英语_OCR整理版.md`
 
-- Source: OCR-organized markdown version of the academic English final exam question bank.
-- Purpose: Useful for checking the original question wording, reviewing the vocabulary items, and comparing against the answer key.
-- Notes: The file keeps the exercise structure and OCR-derived content, so some text may contain OCR noise or formatting artifacts.
+- OCR-organized markdown version of the academic English final-exam question bank.
+- Useful for checking the original wording and comparing against the answer key.
+- May still contain OCR noise or formatting artifacts.
 
-### 2. `学术英语/期末考试题库_学术英语_答案.md`
+### `学术英语/期末考试题库_学术英语_答案.md`
 
-- Source: Answer-matched markdown version based on the OCR question bank.
-- Purpose: Provides the most likely answers in a readable `question + answer` format.
-- Notes: This file is best used together with the OCR version when you want to verify why a particular answer was chosen.
+- Answer-matched markdown version based on the OCR question bank.
+- Best used together with the OCR version for verification.
 
-### 3. `学术英语/期末考试题库_学术英语_刷题.html`
+### `学术英语/期末考试题库_学术英语_刷题.html`
 
-- Source: Offline HTML practice page built from the same academic English materials.
-- Purpose: Lets you practice in a browser without needing any external service or network connection.
-- Notes: The page is designed for local use and is especially convenient for repeated drilling before an exam.
+- Offline HTML practice page built from the same materials.
+- Open it locally in a browser for repeated practice.
+
+## 马原题库
+
+### `马原题库/README.md`
+
+- Directory-level README for the Marxism basic principles question-bank package.
+- Explains how the HTML, Excel, markdown instructions, and ZIP guide fit together.
+
+### `马原题库/离线题库刷题.html`
+
+- Offline quiz page for the Marxism question bank.
+- Designed for local browser-based review.
+
+### `马原题库/题库汇总.xlsx`
+
+- Consolidated workbook exported from the question bank.
+- Contains three sheets: `复习题库`, `错题本`, and `汇总`.
+- Use it for systematic review and result statistics.
+
+### `马原题库/题库提取使用说明.md`
+
+- Beginner-friendly guide for converting local HTML question banks into Excel.
+- Describes the expected directory layout and export workflow.
+
+### `马原题库/学习通题库提取指南.zip`
+
+- Original ZIP guide package kept as-is.
+- Preserved so the source reference material remains available.
 
 ## How To Use
 
-1. Open `学术英语/期末考试题库_学术英语_刷题.html` in a browser for quick practice.
-2. Use `学术英语/期末考试题库_学术英语_OCR整理版.md` when you want to inspect the original questions and wording.
-3. Use `学术英语/期末考试题库_学术英语_答案.md` to check answers after you finish a round of practice.
-4. If the OCR file and answer file differ, treat the OCR question text as the source for the exercise and the answer file as the best-match reference.
+1. Open the HTML files in a browser for quick practice.
+2. Read the related markdown instructions first when you need the workflow.
+3. Use the OCR/answer pair in `学术英语` when you want to compare questions and answers.
+4. Use the `题库汇总.xlsx` workbook in `马原题库` when you want to review errors and statistics.
 
 ## Why This Repository Exists
 
@@ -50,14 +85,11 @@ The goal of this repository is to preserve study material in a form that is:
 - easy to practice repeatedly
 - usable offline
 
-This makes it simpler to turn a one-time study pack into a reusable review resource.
+That makes it simpler to turn one-time study packs into reusable review resources.
 
 ## Important Notes
 
 - The markdown files were produced from OCR and manual整理, so minor text errors may still exist.
-- The HTML practice file is intended for local study and review.
-- File names are kept in Chinese to preserve the original study context and make it easier to identify the materials.
-
-## Current Scope
-
-At the moment, the repository contains only this academic English set. If more subjects are added later, they can be organized into their own subject folders using the same pattern.
+- The HTML practice files are intended for local study and review.
+- File names are kept in Chinese to preserve the original study context and make the materials easy to identify.
+- The repository is organized by subject folder so future additions can follow the same pattern.

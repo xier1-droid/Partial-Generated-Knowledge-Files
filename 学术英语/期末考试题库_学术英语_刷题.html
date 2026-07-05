@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>学术英语题库刷题页</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5efe4;
+      --bg-2: #f0e4d3;
+      --card: rgba(255, 250, 242, 0.92);
+      --text: #2b2320;
+      --muted: #6f6258;
+      --line: #ddcfbe;
+      --accent: #8f5a2a;
+      --accent-2: #c48a4a;
+      --ok: #0a7a52;
+      --ok-bg: #e7f6ef;
+      --bad: #b42318;
+      --bad-bg: #feeceb;
+      --shadow: 0 18px 45px rgba(85, 54, 24, 0.12);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(196, 138, 74, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(143, 90, 42, 0.12), transparent 22%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(255, 252, 246, 0.96), rgba(255, 246, 233, 0.9));
+      border: 1px solid rgba(221, 207, 190, 0.9);
+      border-radius: 24px;
+      padding: 22px 22px 18px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(26px, 4vw, 40px);
+      letter-spacing: 0.02em;
+    }
+
+    .subhead {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(143, 90, 42, 0.08);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .toolbar {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    .primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      box-shadow: 0 12px 24px rgba(143, 90, 42, 0.22);
+    }
+
+    .ghost {
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--accent);
+      border: 1px solid var(--line);
+    }
+
+    .groups {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .group {
+      background: var(--card);
+      border: 1px solid rgba(221, 207, 190, 0.95);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: rise 0.35s ease both;
+    }
+
+    @keyframes rise {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .group-head {
+      padding: 18px 18px 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      border-bottom: 1px solid rgba(221, 207, 190, 0.8);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.65), rgba(255, 250, 243, 0.92));
+    }
+
+    .group-title {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .group-meta {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .score {
+      min-width: 120px;
+      text-align: right;
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 18px;
+      padding-top: 4px;
+    }
+
+    .content {
+      padding: 18px;
+    }
+
+    .wordbox {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .word {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #fff7ed;
+      border: 1px solid #efd8b8;
+      color: #764621;
+      font-weight: 650;
+      font-size: 13px;
+    }
+
+    .qa-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .qa {
+      border: 1px solid rgba(221, 207, 190, 0.95);
+      border-radius: 16px;
+      padding: 14px 14px 12px;
+      background: rgba(255, 255, 255, 0.68);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .qa.correct {
+      border-color: rgba(10, 122, 82, 0.45);
+      background: var(--ok-bg);
+    }
+
+    .qa.wrong {
+      border-color: rgba(180, 35, 24, 0.42);
+      background: var(--bad-bg);
+    }
+
+    .question {
+      margin: 0 0 10px;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .answer-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      font: inherit;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 4px rgba(196, 138, 74, 0.14);
+    }
+
+    .feedback {
+      min-width: 76px;
+      text-align: right;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .feedback.ok { color: var(--ok); }
+    .feedback.bad { color: var(--bad); }
+
+    .explain {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .qa.correct .explain,
+    .qa.wrong .explain { display: block; }
+
+    .footer {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 16px, 1180px); padding-top: 16px; }
+      .hero { position: static; padding: 18px 16px 16px; }
+      .group-head { flex-direction: column; }
+      .score { text-align: left; min-width: 0; }
+      .content { padding: 16px; }
+      .question { font-size: 15px; }
+      .answer-row { grid-template-columns: 1fr; }
+      .feedback { text-align: left; min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <h1>学术英语期末题库刷题页</h1>
+      <div class="subhead">
+        <span class="pill" id="countPill">0 组 · 0 题</span>
+        <span>整组批改模式，提交后自动判分并高亮错题。</span>
+        <span>直接双击即可离线打开使用。</span>
+      </div>
+      <div class="toolbar">
+        <button class="primary" id="gradeAllBtn">批改全部组</button>
+        <button class="ghost" id="resetAllBtn">清空所有答案</button>
+      </div>
+    </header>
+
+    <main class="groups" id="groups"></main>
+    <div class="footer">提示：每组先做完再点“批改本组”，适合按考试节奏练习。</div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        id: 1,
+        words: ["accessible", "conclusive", "compound", "consensus", "consequence", "minimize", "portion", "protocol", "surveillance", "transmission"],
+        questions: [
+          { prompt: "A larger double-blind, placebo-controlled clinical trial is needed to reach a(n) () result regarding the effectiveness of the newly designed drug.", answers: ["conclusive"] },
+          { prompt: "Cardiovascular(心血管的) diseases and their treatment continue to consume a large () of the health care budget in the United States.", answers: ["portion"] },
+          { prompt: "Drug development is complicated, time-consuming, and costly. Thousands of chemical () must be tested to find one that can achieve a desirable result.", answers: ["compound", "compounds"] },
+          { prompt: "Estimation and analysis are carefully specified in the () of a clinical trial based on primary and secondary endpoints.", answers: ["protocol"] },
+          { prompt: "Experts reached a(n) () that patients should be considered ready for hospital discharge when all the symptoms disappear.", answers: ["consensus"] },
+          { prompt: "Knee or hip arthritis will limit the individual from easy mobility and as a(n) () reduce the amount of physical activity, triggering obesity.", answers: ["consequence"] },
+          { prompt: "Pathologists(病理学家) examine how mother-to-infant () of COVID-19 occurs in a new study.", answers: ["transmission"] },
+          { prompt: "The radiologist performed careful clinical planning to minimize the side effects.", answers: ["minimize"] },
+          { prompt: "To improve health outcomes, there has to be a concerted effort to make health care and healthy living more accessible to vulnerable communities.", answers: ["accessible"] },
+          { prompt: "Antimicrobial resistance is a major health issue; therefore, antibiotic consumption should be under strict surveillance.", answers: ["surveillance"] }
+        ]
+      },
+      {
+        id: 2,
+        words: ["undergo", "incentive", "retention", "attachment", "consent", "define", "orientation", "contribution", "assistant", "adjust"],
+        questions: [
+          { prompt: "Both the State and local governments have () to receive refugees under the Department of State's Reception and Placement Program.", answers: ["incentive", "incentives"] },
+          { prompt: "Talent () is the ability of an organization to lower its talent turnover-the cycle of people leaving and being hired-by establishing specific systems.", answers: ["retention"] },
+          { prompt: "Scholars assume that individuals () their racial self-identification to conform to the norms or expectations of others.", answers: ["undergo", "undergoes", "underwent", "undergone"] },
+          { prompt: "Perceptions about () to the household can depend on how \"visible\" the work is: Home-based or unwaged work is often seen as less valuable than work that is physically or monetarily more visible.", answers: ["contribution"] },
+          { prompt: "It is recognized that common memories and feelings about the neighborhood, length of residence, satisfaction with local social contacts, and support between local residents in the neighborhood could increase the () to a place.", answers: ["attachment"] },
+          { prompt: "Social value () is a person’s preference about how to allocate resources (e.g. money) between the self and another person.", answers: ["orientation"] },
+          { prompt: "A(n) () development as well as coordination and monitoring of various social welfare services in the districts and service branches.", answers: ["assistant"] },
+          { prompt: "Traditional customs have () thousands of years of practice and become the treasure of a nation.", answers: ["undergo", "undergone"] },
+          { prompt: "The sociological concept of norm is closely allied to that of role, which is commonly defined as a set of norms attached to a social position.", answers: ["defined"] },
+          { prompt: "Should programs aiming to reduce smoking or to encourage exercise include a monetary ()?", answers: ["incentive"] }
+        ]
+      },
+      {
+        id: 3,
+        words: ["illustrate", "conclude", "approach", "process", "exposure", "identity", "evolution", "whereas", "perceive", "prospective"],
+        questions: [
+          { prompt: "I am now a part-time lecturer and also run psychology workshops for () students.", answers: ["prospective"] },
+          { prompt: "The article () that \"prejudice, discrimination, and segregation created a feeling of inferiority among African-American children and damaged their self-esteem.\"", answers: ["concludes", "conclude"] },
+          { prompt: "Cognitive psychology investigates internal mental (), such as problem solving, memory, learning, and language.", answers: ["process", "processes"] },
+          { prompt: "As part of your essay, you will need to construct a case study to () the arguments you make.", answers: ["illustrate"] },
+          { prompt: "Whereas some people appear to be more positive than others, it doesn't mean that you cannot train yourself to () life more optimistically.", answers: ["perceive"] },
+          { prompt: "We () our environment mostly with our eyes: The visual system delivers about 80 percent of the information processed in the brain.", answers: ["perceive", "perceive"] },
+          { prompt: "Darwin was the father of evolutionary psychology. His theories of () suggested that species evolve over time.", answers: ["evolution"] },
+          { prompt: "Personal () is the concept you develop about yourself that evolves over the course of your life.", answers: ["identity"] },
+          { prompt: "Personality is a set of personal qualities () character is a collection of mental and moral characteristics of an individual.", answers: ["whereas"] },
+          { prompt: "Excessive media () in early childhood poses many developmental and behavioral health risks.", answers: ["exposure"] }
+        ]
+      },
+      {
+        id: 4,
+        words: ["specifically", "comprehensive", "fundamental", "majority", "consume", "furthermore", "internally", "evaluate", "negatively", "consequently"],
+        questions: [
+          { prompt: "You will complete both Master’s-level core courses and concentration courses, which provide a(n) () education in psychological theory and practice.", answers: ["comprehensive"] },
+          { prompt: "The city's residents are () more than 101 million disposable plastic items for takeaway every week.", answers: ["consume", "consuming"] },
+          { prompt: "Vomiting may occur if the stress is severe enough (), stress may cause an unnecessary increase or decrease in appetite.", answers: ["furthermore"] },
+          { prompt: "Attention can be oriented externally to the environment or () to the mind.", answers: ["internally"] },
+          { prompt: "Coincidentally, they were both studying cognitive psychology and were () interested in how the brain often falsely perceives visual images.", answers: ["negatively"] },
+          { prompt: "The purpose of this study is to () a model of vulnerability to stress in French college students.", answers: ["evaluate"] },
+          { prompt: "Surprisingly, it is the youngest generation of travelers, aged 21 and under, that are responsible for the () of travel insurance purchases during the COVID-19 pandemic.", answers: ["majority"] },
+          { prompt: "Until recently, most people believed that the stress response was bad for you and (),was something that should be avoided whenever possible.", answers: ["consequently"] },
+          { prompt: "This course will introduce you to the () principles of psychology and to the major subjects of psychological inquiry.", answers: ["fundamental"] },
+          { prompt: "Prolonged psychological stress may () impact health, and has been cited as a factor in cognitive impairment with aging, depressive illness, and expression of disease.", answers: ["negatively"] }
+        ]
+      },
+      {
+        id: 5,
+        words: ["clarity", "attributable", "adapt", "commentary", "diminish", "editorial", "generate", "maintenance", "procedure", "professionally"],
+        questions: [
+          { prompt: "After an ecological disaster like flooding, people and animals have to () themselves to the new environment for a certain time period.", answers: ["adapt"] },
+          { prompt: "Animals usually need more food to () energy for body warmth during the cold months, and less in the heat.", answers: ["generate"] },
+          { prompt: "Each patient read through the () of the clinical trial and was informed that the participation was on a voluntary basis.", answers: ["procedure"] },
+          { prompt: "Interesting discussion was also provided in the () about the proper use of the new drug for heart disease.", answers: ["commentary"] },
+          { prompt: "Lack of sleep can lead to a decrease in motivation and less creativity, both of which are related to a(n) () level of dopamine(【OCR不确定】).", answers: ["attributable"] },
+          { prompt: "More recently, health ()rather than the eradication of diseases has been placed under the spotlight.", answers: ["maintenance"] },
+          { prompt: "Non-communicable diseases are largely ()to the lifestyle and some environmental exposure.", answers: ["attributable"] },
+          { prompt: "Some scientific journals encourage authors to use active voice for the sake of (), conciseness, and cohesion.", answers: ["clarity"] },
+          { prompt: "The ()board of the medical journal are responsible for screening all articles submitted for publication in that journal.", answers: ["editorial"] },
+          { prompt: "The guideline is to ensure that all the specimens are ()handled from start to finish.", answers: ["professionally"] }
+        ]
+      },
+      {
+        id: 6,
+        words: ["complementary", "theme", "adjustment", "technical", "maximum", "acknowledge", "intensive", "previously", "legislation", "medium"],
+        questions: [
+          { prompt: "We can equip ourselves to take ()advantage of opportunities thrown open by globalization and help our country to realize its true potential.", answers: ["maximum"] },
+          { prompt: "Globalization and the Race for Resources is the central () of the forum.", answers: ["theme"] },
+          { prompt: "Globalization has reduced the cost of doing business abroad for small and ()enterprises and allowed the business owners to use the international scenario to their best.", answers: ["medium"] },
+          { prompt: "Policymakers carefully make ()to fiscal and monetary policy in an attempt to create stable and sustainable growth and reduce the damage caused by the pandemic.", answers: ["adjustment", "adjustments"] },
+          { prompt: "You don't need to explain balance sheets, price-to-earning ratios or anything ()just yet.", answers: ["technical"] },
+          { prompt: "The impact of globalization on economic growth of countries could be changed by the set of () policies such as improvement in human capital and financial system.", answers: ["complementary"] },
+          { prompt: "As agriculture became more capital (), many farm laborers moved to the towns and cities to look for work.", answers: ["intensive"] },
+          { prompt: "Campaigners argue that poor countries faced with a health emergency have a right under international trade () to buy generic drugs.", answers: ["legislation"] },
+          { prompt: "Whereas the globalization debate () focused on the activities of governments and social organizations, the growth of multinational corporations and e-commerce gave rise to a new facet of the debate.", answers: ["previously"] },
+          { prompt: "In the age of globalization, () and understanding cultural differences is more important than ever.", answers: ["acknowledge", "acknowledging"] }
+        ]
+      },
+      {
+        id: 7,
+        words: ["initial", "periodic", "summarize", "eventually", "overestimate", "variable", "empirical", "format", "apparently", "perspective"],
+        questions: [
+          { prompt: "Education is the guarantee for the children's bright future from the () of some parents.", answers: ["perspective"] },
+          { prompt: "The report of violent movies' impact on the real-life violence rates is presented in an easy-to-read ().", answers: ["format"] },
+          { prompt: "The school years in all levels of education either end with final exams, or divide a year into several semesters, each of which ends with a(n) () exam.", answers: ["periodic"] },
+          { prompt: "There is no () evidence that writing by hand is cognitively superior to keyboarding.", answers: ["empirical"] },
+          { prompt: "After the () broadcast, the show will be available on Amazon Prime for 30 days.", answers: ["initial"] },
+          { prompt: "The youth culture is () into 4Cs, as manifested in the core components of Connection, Creation, Community, and Curation.", answers: ["format", "formatted"] },
+          { prompt: "The implementation of the new preferential policy for the ethnic groups () shows that the government has never been more certain of the need to break down racial barriers.", answers: ["initial", "initially"] },
+          { prompt: "It is believed that the level of poverty is significantly determined by macroeconomics () such as inflation, government expenditure, and unemployment rate.", answers: ["variable", "variables"] },
+          { prompt: "The surge in women’s education and employment will logically lead to the decline of gender inequality and () improve women’s status in the workplace.", answers: ["eventually"] },
+          { prompt: "The sun will always rise without your presence, so never () your power in a group.", answers: ["overestimate"] }
+        ]
+      },
+      {
+        id: 8,
+        words: ["dominate", "facilitate", "integration", "dimension", "academia", "implication", "mechanism", "priority", "undertaking", "cooperative"],
+        questions: [
+          { prompt: "The new body is launched this month and will bring together experts from the government, the industry, and the () to look at the challenge of funding energy industry research.", answers: ["academia"] },
+          { prompt: "The story caught national attention, () headlines and conversations across the country.", answers: ["dominate", "dominated"] },
+          { prompt: "There are three main () when it comes to globalization; they are economic, political, and cultural.", answers: ["dimension", "dimensions"] },
+          { prompt: "Dr. King’s dream of a peaceful () between blacks and whites seemed to be fast fading away.", answers: ["integration"] },
+          { prompt: "Employees’ health should be the No. 1 () of the agencies, not scoring political points for rushing employees back.", answers: ["priority"] },
+          { prompt: "The school system says they are acquiring more computers for students and teachers to () remote learning.", answers: ["facilitate"] },
+          { prompt: "Oil prices are expected to decline further due to a slowdown in demand from the cooperative () of the coronavirus.", answers: ["implication", "implications"] },
+          { prompt: "The report shows that about 80% of the people are () and wear masks.", answers: ["cooperative"] },
+          { prompt: "For families in poor countries, sending a relative abroad to earn money tends to be a collective ().", answers: ["undertaking"] },
+          { prompt: "The article says monetary compensation () must be created to help developing countries.", answers: ["mechanism"] }
+        ]
+      }
+    ];
+
+    const groupsEl = document.getElementById('groups');
+    const countPill = document.getElementById('countPill');
+    const totalGroups = quizData.length;
+    const totalQuestions = quizData.reduce((sum, group) => sum + group.questions.length, 0);
+    countPill.textContent = `${totalGroups} 组 · ${totalQuestions} 题`;
+
+    function escapeHtml(text) {
+      return text
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function normalize(text) {
+      return text
+        .toLowerCase()
+        .replace(/[\s\u00A0]+/g, ' ')
+        .replace(/[.,!?;:()\[\]{}"'，。！？；：、]/g, '')
+        .trim();
+    }
+
+    function isCorrect(input, answers) {
+      const normalized = normalize(input);
+      return answers.some(answer => normalize(answer) === normalized);
+    }
+
+    function renderGroup(group, index) {
+      const questionsHtml = group.questions.map((q, qIndex) => {
+        const questionNum = qIndex + 1;
+        return `
+          <div class="qa" data-group="${index}" data-question="${qIndex}">
+            <p class="question"><strong>${questionNum}.</strong> ${escapeHtml(q.prompt)}</p>
+            <div class="answer-row">
+              <input type="text" aria-label="第${group.id}组第${questionNum}题答案" autocomplete="off" spellcheck="false" data-answer-input />
+              <div class="feedback" data-feedback></div>
+            </div>
+            <div class="explain" data-explain></div>
+          </div>`;
+      }).join('');
+
+      return `
+        <section class="group" data-group-card="${index}">
+          <div class="group-head">
+            <div>
+              <h2 class="group-title">第 ${group.id} 组</h2>
+              <div class="group-meta">10 题填空 · 整组批改 · 提交后显示正确答案</div>
+            </div>
+            <div class="score" data-score>未批改</div>
+          </div>
+          <div class="content">
+            <div class="wordbox" aria-label="词库">
+              ${group.words.map(word => `<span class="word">${escapeHtml(word)}</span>`).join('')}
+            </div>
+            <div class="qa-list">${questionsHtml}</div>
+            <div class="toolbar" style="margin-top:16px;">
+              <button class="primary" data-grade-group="${index}">批改本组</button>
+              <button class="ghost" data-reset-group="${index}">清空本组</button>
+            </div>
+          </div>
+        </section>`;
+    }
+
+    groupsEl.innerHTML = quizData.map(renderGroup).join('');
+
+    function gradeGroup(groupIndex) {
+      const group = quizData[groupIndex];
+      const card = document.querySelector(`[data-group-card="${groupIndex}"]`);
+      const qaNodes = [...card.querySelectorAll('.qa')];
+      let correctCount = 0;
+
+      qaNodes.forEach((qaNode, qIndex) => {
+        const input = qaNode.querySelector('[data-answer-input]');
+        const feedback = qaNode.querySelector('[data-feedback]');
+        const explain = qaNode.querySelector('[data-explain]');
+        const accepted = group.questions[qIndex].answers;
+        const userAnswer = input.value.trim();
+        const ok = isCorrect(userAnswer, accepted);
+
+        qaNode.classList.remove('correct', 'wrong');
+        qaNode.classList.add(ok ? 'correct' : 'wrong');
+        feedback.className = `feedback ${ok ? 'ok' : 'bad'}`;
+        feedback.textContent = ok ? '正确' : '错误';
+        explain.textContent = `标准答案：${accepted[0]}`;
+        if (ok) correctCount += 1;
+      });
+
+      card.querySelector('[data-score]').textContent = `${correctCount} / ${group.questions.length}`;
+    }
+
+    function resetGroup(groupIndex) {
+      const card = document.querySelector(`[data-group-card="${groupIndex}"]`);
+      card.querySelectorAll('[data-answer-input]').forEach(input => { input.value = ''; });
+      card.querySelectorAll('.qa').forEach(qa => qa.classList.remove('correct', 'wrong'));
+      card.querySelectorAll('[data-feedback]').forEach(el => { el.className = 'feedback'; el.textContent = ''; });
+      card.querySelectorAll('[data-explain]').forEach(el => { el.textContent = ''; });
+      card.querySelector('[data-score]').textContent = '未批改';
+    }
+
+    document.getElementById('gradeAllBtn').addEventListener('click', () => {
+      quizData.forEach((_, index) => gradeGroup(index));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.getElementById('resetAllBtn').addEventListener('click', () => {
+      quizData.forEach((_, index) => resetGroup(index));
+    });
+
+    document.addEventListener('click', (event) => {
+      const gradeBtn = event.target.closest('[data-grade-group]');
+      if (gradeBtn) {
+        gradeGroup(Number(gradeBtn.dataset.gradeGroup));
+        return;
+      }
+      const resetBtn = event.target.closest('[data-reset-group]');
+      if (resetBtn) {
+        resetGroup(Number(resetBtn.dataset.resetGroup));
+      }
+    });
+  </script>
+</body>
+</html>
